@@ -65,14 +65,14 @@ Library will use RSA to encrypt and decrypt so there should be 2 files `public_k
 # Methods
 | **Name**  | **Method** |
 | --------------------------- | ------------- |
-| Connect Wallet with BIDV    | <pre>\Bidv::link($param);</pre>                 |
-| Disconnet wallet with BIDV  | <pre>\Bidv::unlink($param);</pre>               |
-| Withdraw wallet             | <pre>\Bidv::wallet2Bank($param);</pre>          |
-| Deposit wallet              | <pre>\Bidv::bank2Wallet($param);</pre>          |
-| Check account connect BIDV  | <pre>\Bidv::checkLink($param);</pre>            |
-| Check OTP                   | <pre>\Bidv::checkOtp($param);</pre>             |
-| Check Provider Balance      | <pre>\Bidv::checkProviderBalance($param);</pre> |
-| Inquiry                     | <pre>\Bidv::inquiry($param);</pre>              |
+| Connect Wallet with BIDV    | *\Bidv::link($param);*                 |
+| Disconnet wallet with BIDV  | *\Bidv::unlink($param);*               |
+| Withdraw wallet             | *\Bidv::wallet2Bank($param);*          |
+| Deposit wallet              | *\Bidv::bank2Wallet($param);*          |
+| Check account connect BIDV  | *\Bidv::checkLink($param);*            |
+| Check OTP                   | *\Bidv::checkOtp($param);*             |
+| Check Provider Balance      | *\Bidv::checkProviderBalance($param);* |
+| Inquiry                     | *\Bidv::inquiry($param);*              |
 # Param
 Input data for the above methods will not be included the following variables: `Service_Id`, `Merchant_Id`, `Secure_Code` because the library will be generated it.
 
