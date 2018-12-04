@@ -88,7 +88,8 @@ The returned data will look like this:
 ```
 `RESPONSE_CODE` backs to **000** is successful. If not, it fail.<br/>
 `MESSAGE` is description of result data.<br/>
-`IS_CORRECT_SIGN` is a sign shows that returned data is valid
+`IS_CORRECT_SIGN` is a sign shows that returned data is valid.
+
 # License
 [MIT](https://choosealicense.com/licenses/mit/)
 
