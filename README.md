@@ -1,0 +1,99 @@
+# BIDV Library
+This is the library that supports the connection to the BIDV banking system.
+
+**Note:** This library is only usable with **Laravel** and **Lumen**
+
+# Installation
+```bash
+composer require 9pay/bidv
+```
+
+## Laravel
+For Laravel version <= **5.4**
+
+Add to section providers of `config/app.php`:
+```php
+'providers' => [
+    ...
+    NinePay\Bidv\Providers\BankServiceProvider::class,
+];
+```
+And add to aliases section:
+```php
+'aliases' => [
+    ...
+    'Bidv' => NinePay\Bidv\Facades\BidvFacade::class,
+];
+```
+
+The library will use the data in the config file, so we need to publish config to use:
+```bash
+php artisan vendor:publish --provider="NinePay\Bidv\Providers\BankServiceProvider" --tag=config
+```
+
+## Lumen
+Open `bootstrap/app.php` and register the required service provider:
+```php
+$app->register(NinePay\Bidv\Providers\BankServiceProvider::class);
+```
+And register class alias:
+```php
+class_alias(NinePay\Bidv\Facades\BidvFacade::class, 'Bidv');
+```
+
+*Facades must be enabled.*
+
+In Lumen, we can not create config file by Artisan CLI. So, you will create a config file with name `bank.php` with content:
+```php
+return [
+    'url'              => env('URL', ''),
+    'service_id'       => env('SERVICE_ID', ''),
+    'merchant_id'      => env('MERCHANT_ID', ''),
+    'private_key_bidv' => env('PRIVATE_KEY', ''),
+	'public_key_bidv'  => '/test/example_public_key.pem',
+	'private_key_9pay' => '/test/example_private_key.pem',
+]; 
+```
+And add it to `bootstrap/app.php`:
+```php
+$app->configure('bank');
+```
+
+# Certificate
+Library will use RSA to encrypt and decrypt so there should be 2 files `public_key` and `private_key`
+
+# Methods
+| **Name**  | **Method** |
+| --------------------------- | ------------- |
+| Connect Wallet with BIDV    | <pre>\Bidv::link($param);</pre>                 |
+| Disconnet wallet with BIDV  | <pre>\Bidv::unlink($param);</pre>               |
+| Withdraw wallet             | <pre>\Bidv::wallet2Bank($param);</pre>          |
+| Deposit wallet              | <pre>\Bidv::bank2Wallet($param);</pre>          |
+| Check account connect BIDV  | <pre>\Bidv::checkLink($param);</pre>            |
+| Check OTP                   | <pre>\Bidv::checkOtp($param);</pre>             |
+| Check Provider Balance      | <pre>\Bidv::checkProviderBalance($param);</pre> |
+| Inquiry                     | <pre>\Bidv::inquiry($param);</pre>              |
+# Param
+Input data for the above methods will not be included the following variables: `Service_Id`, `Merchant_Id`, `Secure_Code` because the library will be generated it.
+
+# Response
+The returned data will look like this:
+```php
+    array(
+        'RESPONSE_CODE'   => '000',
+        'MESSAGE'         => '',
+        'IS_CORRECT_SIGN' => false,
+        //...
+    )
+```
+`RESPONSE_CODE` backs to **000** is successful. If not, it fail.<br/>
+`MESSAGE` is description of result data.<br/>
+`IS_CORRECT_SIGN` is a sign shows that returned data is valid
+# License
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+
+
+
+
