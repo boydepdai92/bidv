@@ -10,10 +10,12 @@
         "bidv"
     ],
     "homepage": "https://9pay.vn",
-    "authors": {
-        "name": "Trung Chi",
-        "email": "trungnc@mobgame.vn"
-    },
+    "authors": [
+        {
+            "name": "Trung Chi",
+            "email": "trungnc@mobgame.vn"
+        }
+    ],
     "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "~6.0"
