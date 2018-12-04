@@ -25,7 +25,7 @@ class Bank extends Api implements IBank
     const CHECK_LINK_ACTION       = '/NCC_WSDL.serviceagent//checkLink';
     const CHECK_OTP_ACTION        = '/NCC_WSDL.serviceagent//checkOtp';
 	const INQUIRY_ACTION          = '/WSDL-service2.serviceagent/NCC_PortTypeEndpoint2/inquiry';
-	const CHECK_POVIDER_BALANCE_ACTION = '/WSDL-service0.serviceagent/NCC_PortTypeEndpoint0/providerBalance';
+	const CHECK_PROVIDER_BALANCE_ACTION = '/WSDL-service0.serviceagent/NCC_PortTypeEndpoint0/providerBalance';
 
 	public function __construct(Repository $config)
 	{
@@ -69,7 +69,7 @@ class Bank extends Api implements IBank
 	{
 		$this->typeSign = self::TYPE_RSA;
 
-		$res = $this->call(self::PATH_CHECK_OTP,self::PATH_CHECK_OTP, $param);
+		$res = $this->call(self::PATH_CHECK_OTP,self::CHECK_OTP_ACTION, $param);
 
 		return $res;
 	}
@@ -96,7 +96,7 @@ class Bank extends Api implements IBank
 	{
 		$this->typeSign = self::TYPE_RSA;
 
-		$res = $this->call(self::PATH_CHECK_PROVIDER_BALANCE,self::PATH_CHECK_PROVIDER_BALANCE, $param);
+		$res = $this->call(self::PATH_CHECK_PROVIDER_BALANCE,self::CHECK_PROVIDER_BALANCE_ACTION, $param);
 
 		return $res;
 	}
