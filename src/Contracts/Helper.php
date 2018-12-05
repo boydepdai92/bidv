@@ -13,8 +13,8 @@ trait Helper
     public function buildParam($param, $type)
     {
         $begin = [
-            'Service_Id'  => config('bank.service_id'),
-            'Merchant_Id' => config('bank.merchant_id'),
+            'Service_Id'  => config('bidv_wallet.service_id'),
+            'Merchant_Id' => config('bidv_wallet.merchant_id'),
         ];
 
         $param = $begin + $param;
@@ -73,7 +73,7 @@ trait Helper
                         $return['IS_CORRECT_SIGN'] = true;
                     }
                 } else {
-                    $sign_key = $this->GetPublicKeyFromFile(config('bank.public_key_bidv'));
+                    $sign_key = $this->GetPublicKeyFromFile(config('bidv_wallet.public_key_bidv'));
                     $secureCode = $this->signature_verify($Secure_Code_Res, $this->createStr($return, true), $sign_key);
                     if ($secureCode) {
                         $return['IS_CORRECT_SIGN'] = true;
@@ -127,7 +127,7 @@ trait Helper
         if ($type == Response::$md5) {
             return md5($str);
         } else {
-            return $this->signature_sign($str, config('bank.private_key_9pay'));
+            return $this->signature_sign($str, config('bidv_wallet.private_key_9pay'));
         }
     }
 
@@ -135,7 +135,7 @@ trait Helper
     {
         $str = implode('|', $param);
 
-        $str = config('bank.private_key_bidv') . '|' . $str;
+        $str = config('bidv_wallet.private_key_bidv') . '|' . $str;
 
         if ($is_remove) {
             $str = substr($str, 0, -1);

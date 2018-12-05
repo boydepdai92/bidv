@@ -27,7 +27,7 @@ class Bank extends Api implements IBank
 
 	public function getUrl()
 	{
-		return config('bank.url');
+		return config('bidv_wallet.url');
 	}
 
 	public function link(array $param)

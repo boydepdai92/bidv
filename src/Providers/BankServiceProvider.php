@@ -12,10 +12,10 @@ class BankServiceProvider extends ServiceProvider
 
 	public function boot()
 	{
-		$this->mergeConfigFrom(__DIR__ . '/../../config/bank.php', 'bank');
+		$this->mergeConfigFrom(__DIR__ . '/../../config/bidv_wallet.php', 'bidv_wallet');
 
 		if ($this->app->runningInConsole()) {
-            $this->publishes([__DIR__ . '/../../config/bank.php' => config_path('bank.php')], 'config');
+            $this->publishes([__DIR__ . '/../../config/bidv_wallet.php' => config_path('bidv_wallet.php')], 'config');
 		}
 	}
 }
