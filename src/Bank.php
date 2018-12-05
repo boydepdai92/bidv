@@ -1,14 +1,12 @@
 <?php
 namespace NinePay\Bidv;
 
-use Illuminate\Config\Repository;
 use NinePay\Bidv\Contracts\Api;
 use NinePay\Bidv\Contracts\IBank;
+use NinePay\Bidv\Contracts\Response;
 
 class Bank extends Api implements IBank
 {
-	protected $config;
-
 	const PATH_LINK        = 'link';
 	const PATH_UNLINK      = 'UnLink';
 	const PATH_BANK2WALLET = 'Wallet2Bank';
@@ -19,28 +17,22 @@ class Bank extends Api implements IBank
 	const PATH_CHECK_PROVIDER_BALANCE = 'providerBalance';
 
 	const LINK_SOAP_ACTION        = '/NCC_WSDL.serviceagent//link';
-    const UNLINK_SOAP_ACTION      = '/NCC_WSDL.serviceagent//unLink';
-    const BANK2WALLET_SOAP_ACTION = '/NCC_WSDL.serviceagent//bank2Wallet';
-    const WALLET2BANK_ACTION      = '/NCC_WSDL.serviceagent//wallet2Bank';
-    const CHECK_LINK_ACTION       = '/NCC_WSDL.serviceagent//checkLink';
-    const CHECK_OTP_ACTION        = '/NCC_WSDL.serviceagent//checkOtp';
+	const UNLINK_SOAP_ACTION      = '/NCC_WSDL.serviceagent//unLink';
+	const BANK2WALLET_SOAP_ACTION = '/NCC_WSDL.serviceagent//bank2Wallet';
+	const WALLET2BANK_ACTION      = '/NCC_WSDL.serviceagent//wallet2Bank';
+	const CHECK_LINK_ACTION       = '/NCC_WSDL.serviceagent//checkLink';
+	const CHECK_OTP_ACTION        = '/NCC_WSDL.serviceagent//checkOtp';
 	const INQUIRY_ACTION          = '/WSDL-service2.serviceagent/NCC_PortTypeEndpoint2/inquiry';
 	const CHECK_PROVIDER_BALANCE_ACTION = '/WSDL-service0.serviceagent/NCC_PortTypeEndpoint0/providerBalance';
 
-	public function __construct(Repository $config)
+	public function getUrl()
 	{
-		if ($config->get('bank')) {
-			$this->config = $config->get('bank');
-		} else {
-			$this->config = config('bank');
-		}
-
-		$this->url = $this->config['url'];
+		return config('bank.url');
 	}
 
 	public function link(array $param)
 	{
-		$this->typeSign = self::TYPE_MD5;
+		$this->typeSign = Response::$md5;
 
 		$res = $this->call(self::PATH_LINK, self::LINK_SOAP_ACTION, $param);
 
@@ -49,7 +41,7 @@ class Bank extends Api implements IBank
 
 	public function unlink(array $param)
 	{
-		$this->typeSign = self::TYPE_MD5;
+		$this->typeSign = Response::$md5;
 
 		$res = $this->call(self::PATH_UNLINK,self::UNLINK_SOAP_ACTION, $param);
 
@@ -58,7 +50,7 @@ class Bank extends Api implements IBank
 
 	public function checkLink(array $param)
 	{
-		$this->typeSign = self::TYPE_MD5;
+		$this->typeSign = Response::$md5;
 
 		$res = $this->call(self::PATH_CHECK_LINK,self::CHECK_LINK_ACTION, $param);
 
@@ -67,7 +59,7 @@ class Bank extends Api implements IBank
 
 	public function checkOtp(array $param)
 	{
-		$this->typeSign = self::TYPE_RSA;
+		$this->typeSign = Response::$rsa;
 
 		$res = $this->call(self::PATH_CHECK_OTP,self::CHECK_OTP_ACTION, $param);
 
@@ -76,7 +68,7 @@ class Bank extends Api implements IBank
 
 	public function bank2Wallet(array $param)
 	{
-		$this->typeSign = self::TYPE_RSA;
+		$this->typeSign = Response::$rsa;
 
 		$res = $this->call(self::PATH_BANK2WALLET,self::BANK2WALLET_SOAP_ACTION, $param);
 
@@ -85,7 +77,7 @@ class Bank extends Api implements IBank
 
 	public function wallet2Bank(array $param)
 	{
-		$this->typeSign = self::TYPE_RSA;
+		$this->typeSign = Response::$rsa;
 
 		$res = $this->call(self::PATH_WALLET2BANK,self::WALLET2BANK_ACTION, $param);
 
@@ -94,7 +86,7 @@ class Bank extends Api implements IBank
 
 	public function checkProviderBalance(array $param)
 	{
-		$this->typeSign = self::TYPE_RSA;
+		$this->typeSign = Response::$rsa;
 
 		$res = $this->call(self::PATH_CHECK_PROVIDER_BALANCE,self::CHECK_PROVIDER_BALANCE_ACTION, $param);
 
@@ -103,7 +95,7 @@ class Bank extends Api implements IBank
 
 	public function inquiry(array $param)
 	{
-		$this->typeSign = self::TYPE_MD5;
+		$this->typeSign = Response::$rsa;
 
 		$res = $this->call(self::PATH_INQUIRY,self::INQUIRY_ACTION, $param);
 

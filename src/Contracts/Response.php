@@ -4,6 +4,10 @@ namespace NinePay\Bidv\Contracts;
 
 class Response
 {
+	public static $md5 = 'md5';
+
+	public static $rsa = 'rsa';
+
 	private static $responseCode = [
 		'000' => 'Giao dịch thành công',
 		'001' => 'Hóa đơn đã được thanh toán trước đó',
