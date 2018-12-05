@@ -188,7 +188,7 @@ class Api
 	{
 		$str = implode('|', $param);
 
-		$str = config('bank.private_key') . '|' . $str;
+		$str = config('bank.private_key_bidv') . '|' . $str;
 
 		if ($is_remove) {
 			$str = substr($str, 0, -1);
