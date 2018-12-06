@@ -10,8 +10,30 @@ trait Helper
 
     private $footer = '</ncc:root></soapenv:Body></soapenv:Envelope>';
 
+	private $default_param = [
+		'Merchant_Name' => '',
+		'Trandate'      => '',
+		'Trans_Id'      => '',
+		'Trans_Desc'    => '',
+		'Amount'        => 0,
+		'Curr'          => '',
+		'Payer_Id'      => '',
+		'Payer_Name'    => '',
+		'Payer_Addr'    => '',
+		'Type'          => '',
+		'Custmer_Id'    => '',
+		'Customer_Name' => '',
+		'IssueDate'     => '',
+		'Channel_Id'    => '',
+		'Link_Type'     => '',
+		'Otp_Number'    => '',
+		'More_Info'     => '',
+	];
+
     public function buildParam($param, $type)
     {
+	    $param = array_merge($this->default_param, $param);
+
         $begin = [
             'Service_Id'  => config('bidv_wallet.service_id'),
             'Merchant_Id' => config('bidv_wallet.merchant_id'),
