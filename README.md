@@ -43,20 +43,20 @@ class_alias(NinePay\Bidv\Facades\BidvFacade::class, 'Bidv');
 
 *Facades must be enabled.*
 
-In Lumen, we can not create config file by Artisan CLI. So, you will create a config file with name `bank.php` with content:
+In Lumen, we can not create config file by Artisan CLI. So, you will create a config file with name `bidv_wallet.php` with content:
 ```php
 return [
-    'url'              => env('URL', ''),
-    'service_id'       => env('SERVICE_ID', ''),
-    'merchant_id'      => env('MERCHANT_ID', ''),
-    'private_key_bidv' => env('PRIVATE_KEY', ''),
-    'public_key_bidv'  => '/test/example_public_key.pem',
-    'private_key_9pay' => '/test/example_private_key.pem',
-]; 
+	'url'              => env('BIDV_WALLET_URL', ''),
+	'service_id'       => env('BIDV_WALLET_SERVICE_ID', ''),
+	'merchant_id'      => env('BIDV_WALLET_MERCHANT_ID', ''),
+	'private_key_bidv' => env('BIDV_WALLET_SECRET_KEY', ''),
+	'public_key_bidv'  => '/test/example_public_key.pem',
+	'private_key_9pay' => '/test/example_private_key.pem',
+];
 ```
 And add it to `bootstrap/app.php`:
 ```php
-$app->configure('bank');
+$app->configure('bidv_wallet');
 ```
 
 # Certificate
