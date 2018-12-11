@@ -29,10 +29,10 @@ trait Helper
 		'Type'          => '',
 		'Custmer_Id'    => '',
 		'Customer_Name' => '',
+		'IssueDate'     => '',
 	];
 
 	private $param_wallet = [
-		'IssueDate'  => '',
 		'Channel_Id' => '',
 		'Link_Type'  => '',
 		'Otp_Number' => '',
