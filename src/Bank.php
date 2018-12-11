@@ -25,6 +25,11 @@ class Bank extends Api implements IBank
 	const INQUIRY_ACTION          = '/WSDL-service2.serviceagent/NCC_PortTypeEndpoint2/inquiry';
 	const CHECK_PROVIDER_BALANCE_ACTION = '/WSDL-service0.serviceagent/NCC_PortTypeEndpoint0/providerBalance';
 
+	public function setConfig()
+	{
+		return 'bidv_wallet';
+	}
+
 	public function getUrl()
 	{
 		return config('bidv_wallet.url');

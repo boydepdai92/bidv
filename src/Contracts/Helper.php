@@ -4,9 +4,15 @@ namespace NinePay\Bidv\Contracts;
 
 trait Helper
 {
-    private $prefix = 'ncc:';
+	private $config;
 
-    private $header = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ncc="NCCWalletInput_Schema"><soapenv:Header/><soapenv:Body><ncc:root>';
+	private $is_wallet = false;
+
+	private $prefix = 'ncc:';
+
+	private $headerWallet = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ncc="NCCWalletInput_Schema"><soapenv:Header/><soapenv:Body><ncc:root>';
+
+    private $headerGate = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ncc="NCCInput_Schema"><soapenv:Header/><soapenv:Body><ncc:root>';
 
     private $footer = '</ncc:root></soapenv:Body></soapenv:Envelope>';
 
@@ -23,20 +29,36 @@ trait Helper
 		'Type'          => '',
 		'Custmer_Id'    => '',
 		'Customer_Name' => '',
-		'IssueDate'     => '',
-		'Channel_Id'    => '',
-		'Link_Type'     => '',
-		'Otp_Number'    => '',
-		'More_Info'     => '',
 	];
+
+	private $param_wallet = [
+		'IssueDate'  => '',
+		'Channel_Id' => '',
+		'Link_Type'  => '',
+		'Otp_Number' => '',
+		'More_Info'  => '',
+	];
+
+	public function readConfig($name)
+	{
+		$this->config = config($name);
+
+		if ($name == 'bidv_wallet') {
+			$this->is_wallet = true;
+		}
+	}
 
     public function buildParam($param, $type)
     {
+    	if ($this->is_wallet) {
+    		$this->default_param = array_merge($this->default_param, $this->param_wallet);
+	    }
+
 	    $param = array_merge($this->default_param, $param);
 
         $begin = [
-            'Service_Id'  => config('bidv_wallet.service_id'),
-            'Merchant_Id' => config('bidv_wallet.merchant_id'),
+            'Service_Id'  => $this->config['service_id'],
+            'Merchant_Id' => $this->config['merchant_id'],
         ];
 
         $param = $begin + $param;
@@ -53,7 +75,12 @@ trait Helper
             $array
         );
 
-        $xml  = $this->header;
+	    if ($this->is_wallet) {
+		    $xml = $this->headerWallet;
+	    } else {
+	    	$xml = $this->headerGate;
+	    }
+
         $xml .= $this->generateXmlFromArray($array);
         $xml .= $this->footer;
 
@@ -95,7 +122,7 @@ trait Helper
                         $return['IS_CORRECT_SIGN'] = true;
                     }
                 } else {
-                    $sign_key = $this->GetPublicKeyFromFile(config('bidv_wallet.public_key_bidv'));
+                    $sign_key = $this->GetPublicKeyFromFile($this->config['public_key_bidv']);
                     $secureCode = $this->signature_verify($Secure_Code_Res, $this->createStr($return, true), $sign_key);
                     if ($secureCode) {
                         $return['IS_CORRECT_SIGN'] = true;
@@ -149,7 +176,7 @@ trait Helper
         if ($type == Response::$md5) {
             return md5($str);
         } else {
-            return $this->signature_sign($str, config('bidv_wallet.private_key_9pay'));
+            return $this->signature_sign($str, $this->config['private_key_9pay']);
         }
     }
 
@@ -157,7 +184,7 @@ trait Helper
     {
         $str = implode('|', $param);
 
-        $str = config('bidv_wallet.private_key_bidv') . '|' . $str;
+        $str = $this->config['private_key_bidv'] . '|' . $str;
 
         if ($is_remove) {
             $str = substr($str, 0, -1);

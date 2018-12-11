@@ -12,12 +12,16 @@ abstract class Api
 
 	protected $typeSign;
 
+	abstract public function getUrl();
+
+	abstract public function setConfig();
+
 	public function __construct()
 	{
 		$this->setUrl();
-	}
 
-	abstract public function getUrl();
+		$this->readConfig($this->setConfig());
+	}
 
 	private function setUrl()
 	{
